@@ -8,6 +8,7 @@ function LocalityTable(props) {
         <div>
             <table className="table">
                 <thead>
+                <tr>
                 <th>
                     Code
                 </th>
@@ -20,6 +21,7 @@ function LocalityTable(props) {
                 <th>
                     Département
                 </th>
+                </tr>
 
                 </thead>
                 <tbody>
