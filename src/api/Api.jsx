@@ -1,15 +1,12 @@
 import axios from "axios";
 
 
-var baseUrl = "https://cov19api.herokuapp.com/api/";
-if (process.env.NODE_ENV !== 'production') {
-    baseUrl = "http://localhost:8080/api/";
-}
+const { REACT_APP_API_BASE_URL } = process.env;
 
 console.log("Base URL");
-console.log(baseUrl)
+console.log(REACT_APP_API_BASE_URL)
 
 export default axios.create({
-    baseURL: baseUrl,
+    baseURL: REACT_APP_API_BASE_URL,
     responseType: "json"
 });
