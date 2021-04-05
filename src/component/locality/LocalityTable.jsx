@@ -1,26 +1,24 @@
 function LocalityTable(props) {
 
     const {departments} = props;
-    console.log("PROPS");
-    console.log(departments);
 
     return (
         <div>
             <table className="table">
                 <thead>
                 <tr>
-                <th>
-                    Code
-                </th>
-                <th>
-                    Région
-                </th>
-                <th>
-                    Code
-                </th>
-                <th>
-                    Département
-                </th>
+                    <th>
+                        Code
+                    </th>
+                    <th>
+                        Région
+                    </th>
+                    <th>
+                        Code
+                    </th>
+                    <th>
+                        Département
+                    </th>
                 </tr>
 
                 </thead>

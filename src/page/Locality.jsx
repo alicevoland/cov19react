@@ -4,11 +4,14 @@ import LocalityTable from "../component/locality/LocalityTable";
 import Jumbo from "../component/common/Jumbo";
 import Navbar from "../component/common/Navbar";
 import Content from "../component/common/Content";
+import Footer from "../component/common/Footer";
+import Loading from "../component/common/Loading";
 
 function Locality(props) {
 
     const [state, setState] = useState({
-        departments: []
+        departments: [],
+        isLoading: true
     });
 
     useEffect(
@@ -24,7 +27,8 @@ function Locality(props) {
                         }
                     });
                     setState({
-                        departments: departments
+                        departments: departments,
+                        isLoading: false
                     })
                 })
                 .catch(error => console.log(error))
@@ -37,10 +41,18 @@ function Locality(props) {
     return (
         <>
             <Navbar/>
-            <Jumbo title={"Régions et départements"} lead={"List des régions et départements de France"}/>
+            <Jumbo
+                title={"Régions et départements"}
+                lead={"Liste des régions et départements de France"}
+            />
             <Content>
-                <LocalityTable departments={state.departments}/>
+                <Loading isLoading={state.isLoading}>
+                    <LocalityTable
+                        departments={state.departments}
+                    />
+                </Loading>
             </Content>
+            <Footer/>
         </>
     );
 }
