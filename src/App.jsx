@@ -2,6 +2,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom'
 
 import Home from "./page/Home";
 import Locality from "./page/Locality";
+import RegionalIntensiveCareAdmission from "./page/RegionalIntensiveCareAdmission";
 
 function App() {
     return (
@@ -21,10 +22,16 @@ function App() {
                             <Home {...props} />
                         }/>
 
-                        {/* Locality Table */}
+                        {/* Locality: Departments and Regions */}
                         <Route exact path='/locality' render={(props) =>
                             <Locality {...props} />
                         }/>
+
+                        {/* Locality: Departments and Regions */}
+                        <Route exact path='/regionalIntensiveCareAdmissions' render={(props) =>
+                            <RegionalIntensiveCareAdmission {...props} />
+                        }/>
+
 
                     </Switch>
             </BrowserRouter>
