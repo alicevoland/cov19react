@@ -1,8 +1,8 @@
-function Conditional(props) {
-    if (props.showCondition) {
+function Conditional({showCondition, children}) {
+    if (showCondition) {
         return (
             <>
-                {props.children}
+                {children}
             </>
         )
     } else return (<></>);

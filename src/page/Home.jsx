@@ -3,7 +3,7 @@ import Content from "../component/common/Content";
 import Navbar from "../component/common/Navbar";
 import Footer from "../component/common/Footer";
 import {Link} from "react-router-dom";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import A from "../component/common/A";
 
 

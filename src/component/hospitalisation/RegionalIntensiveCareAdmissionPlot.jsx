@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState} from "react";
 import Chart from 'chart.js/auto';
 
-function RegionalIntensiveCareAdmissionPlot(props) {
-    const {admissions} = props;
+function Plot(props) {
+    const {admissions, region} = props;
     const canvasRef = useRef(null);
 
 
@@ -34,7 +34,7 @@ function RegionalIntensiveCareAdmissionPlot(props) {
                     },
                     title: {
                         display: true,
-                        text: 'Admission en réanimation'
+                        text: `Admission en réanimation (${region.regionName})`
                     }
                 }
             },
@@ -45,14 +45,9 @@ function RegionalIntensiveCareAdmissionPlot(props) {
         setChart({chart: new Chart(canvasRef.current, config)});
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(createChart, [admissions]);
 
-    if (admissions.length === 0) {
-        return (
-            <>
-            </>
-        )
-    }
     return (
         <>
             <div className={"py-4"}>
@@ -61,6 +56,21 @@ function RegionalIntensiveCareAdmissionPlot(props) {
             </div>
         </>
     );
+}
+
+function RegionalIntensiveCareAdmissionPlot(props) {
+    const {admissions} = props;
+    if (admissions && admissions.length > 0) {
+        return (
+            <Plot {...props} />
+        );
+    } else {
+        return (
+            <>
+                <p>Pas de données</p>
+            </>
+        );
+    }
 }
 
 export default RegionalIntensiveCareAdmissionPlot;
