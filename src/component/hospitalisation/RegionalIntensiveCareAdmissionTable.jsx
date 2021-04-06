@@ -1,6 +1,14 @@
 function RegionalIntensiveCareAdmissionTable(props) {
     const {admissions} = props;
 
+    if (admissions.length === 0) {
+        return (
+            <p>
+                Pas de données pour cette région.
+            </p>
+        )
+    }
+
     return (
         <div>
             <table className="table">
@@ -43,6 +51,7 @@ function RegionalIntensiveCareAdmissionTable(props) {
                 </tbody>
             </table>
         </div>
-    );}
+    );
+}
 
 export default RegionalIntensiveCareAdmissionTable;
