@@ -10,8 +10,10 @@ function RegionalIntensiveCareAdmissionTable(props) {
     }
 
     return (
-        <div>
-            <table className="table">
+        <>
+        <div className={"py-4"}>
+            <h1>Tableau</h1>
+            <table className="table table-striped">
                 <thead>
                 <tr>
                     <th>
@@ -51,6 +53,7 @@ function RegionalIntensiveCareAdmissionTable(props) {
                 </tbody>
             </table>
         </div>
+        </>
     );
 }
 

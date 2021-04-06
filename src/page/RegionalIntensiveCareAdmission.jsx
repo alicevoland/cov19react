@@ -7,6 +7,8 @@ import Footer from "../component/common/Footer";
 import Loading from "../component/common/Loading";
 import RegionalIntensiveCareAdmissionTable from "../component/hospitalisation/RegionalIntensiveCareAdmissionTable";
 import RegionChooser from "../component/locality/RegionChooser";
+import RegionalIntensiveCareAdmissionPlot from "../component/hospitalisation/RegionalIntensiveCareAdmissionPlot";
+import Conditional from "../component/common/Conditional";
 
 function RegionalIntensiveCareAdmission(props) {
 
@@ -52,7 +54,7 @@ function RegionalIntensiveCareAdmission(props) {
                     regionalIntensiveCareAdmissions = response.data._embedded.regionalIntensiveCareAdmissions;
                 }
                 regionalIntensiveCareAdmissions.sort((a, o) => {
-                    return o.noticeDate.localeCompare(a.noticeDate)
+                    return a.noticeDate.localeCompare(o.noticeDate)
                 });
                 setAdmissions({admissions: regionalIntensiveCareAdmissions})
                 setAdmissionsLoading({isLoading: false});
@@ -78,11 +80,18 @@ function RegionalIntensiveCareAdmission(props) {
                         handleNewRegionCode={handleNewRegionCode}
                     />
                 </Loading>
+                <Conditional showCondition={selectedRegion.regionCode !== undefined}>
+                <Loading isLoading={admissionsLoading.isLoading}>
+                    <RegionalIntensiveCareAdmissionPlot
+                        admissions={admissions.admissions}
+                    />
+                </Loading>
                 <Loading isLoading={admissionsLoading.isLoading}>
                     <RegionalIntensiveCareAdmissionTable
                         admissions={admissions.admissions}
                     />
                 </Loading>
+                </Conditional>
             </Content>
             <Footer/>
         </>
