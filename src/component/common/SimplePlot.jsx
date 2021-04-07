@@ -42,7 +42,7 @@ function Plot({x, y, title, legend}) {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(createChart, [x, y]);
+    useEffect(createChart, [x]);
 
     return (
         <>

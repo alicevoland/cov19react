@@ -3,12 +3,18 @@ import Jumbo from "../component/common/Jumbo";
 import Navbar from "../component/common/Navbar";
 import Content from "../component/common/Content";
 import Footer from "../component/common/Footer";
+
+// ui
 import RegionChooser from "../component/locality/RegionChooser";
+import CheckboxConditional from "../component/common/CheckboxConditional";
+
+// ui
 import {RegionalIntensiveCareAdmissionPlot} from "../component/hospitalisation/HospitalisationPlot";
+import {RegionalIntensiveCareAdmissionTable} from "../component/hospitalisation/HospitalisationTable";
+
+//api
 import {searchRegionalIntensiveCareAdmissions} from "../api/hospitalisation";
 import {findAllRegions} from "../api/locality";
-import RegionalIntensiveCareAdmissionTable from "../component/hospitalisation/RegionalIntensiveCareAdmissionTable";
-import CheckboxConditional from "../component/common/CheckboxConditional";
 
 function RegionalIntensiveCareAdmission(props) {
 
