@@ -7,9 +7,8 @@ import RegionChooser from "../component/locality/RegionChooser";
 import RegionalIntensiveCareAdmissionPlot from "../component/hospitalisation/RegionalIntensiveCareAdmissionPlot";
 import {searchRegionalIntensiveCareAdmissions} from "../api/hospitalisation";
 import {findAllRegions} from "../api/locality";
-import GraphTableViewSelect from "../component/GraphTableViewSelect";
 import RegionalIntensiveCareAdmissionTable from "../component/hospitalisation/RegionalIntensiveCareAdmissionTable";
-import Conditional from "../component/common/Conditional";
+import CheckboxConditional from "../component/common/CheckboxConditional";
 
 function RegionalIntensiveCareAdmission(props) {
 
@@ -63,15 +62,14 @@ function RegionalIntensiveCareAdmission(props) {
             />
             <Content>
                 <RegionChooser regions={regions.regions} callback={setSelectedRegion}/>
-                <GraphTableViewSelect viewOption={viewOption} callback={setViewOption}/>
-                <Conditional showCondition={viewOption.graph}>
+                <CheckboxConditional initial={true} message={"Afficher le graphique"}>
                     <RegionalIntensiveCareAdmissionPlot region={selectedRegion.region}
                                                         admissions={admissions.admissions}/>
-                </Conditional>
-                <Conditional showCondition={viewOption.table}>
+                </CheckboxConditional>
+                <CheckboxConditional initial={false} message={"Afficher le tableau"}>
                     <RegionalIntensiveCareAdmissionTable region={selectedRegion.region}
                                                          admissions={admissions.admissions}/>
-                </Conditional>
+                </CheckboxConditional>
             </Content>
             <Footer/>
         </>
