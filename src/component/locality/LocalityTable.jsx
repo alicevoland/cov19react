@@ -1,3 +1,4 @@
+//todo: use SimpleTable
 function LocalityTable(props) {
 
     const {departments} = props;

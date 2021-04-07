@@ -15,6 +15,7 @@ import {RegionalIntensiveCareAdmissionTable} from "../component/hospitalisation/
 //api
 import {searchRegionalIntensiveCareAdmissions} from "../api/hospitalisation";
 import {findAllRegions} from "../api/locality";
+import DateChooser from "../component/locality/DateChooser";
 
 function RegionalIntensiveCareAdmission(props) {
 
@@ -28,8 +29,12 @@ function RegionalIntensiveCareAdmission(props) {
     const [selectedRegion, setSelectedRegion] = useState({region: undefined, status: 'initial'});
 
     // Notice date window
-    const [noticeDateBegin, setNoticeDateBegin] = useState({dateString: "2021-03-01"})
-    const [noticeDateEnd, setNoticeDateEnd] = useState({dateString: "2022-03-01"})
+    const initialBegin = new Date();
+    initialBegin.setDate(initialBegin.getDate() - 30);
+    const [noticeDateBegin, setNoticeDateBegin] = useState({
+        dateString: initialBegin.toISOString().slice(0, 10)
+    })
+    const [noticeDateEnd, setNoticeDateEnd] = useState({dateString: new Date().toISOString().slice(0, 10)})
 
     // Admissions
     const [admissions, setAdmissions] = useState({admissions: [], status: 'initial'});
@@ -68,6 +73,16 @@ function RegionalIntensiveCareAdmission(props) {
             />
             <Content>
                 <RegionChooser regions={regions.regions} callback={setSelectedRegion}/>
+                <DateChooser label={"Date début"}
+                             min={"2020-01-01"} max={noticeDateEnd.dateString}
+                             initial={noticeDateBegin.dateString}
+                             callback={setNoticeDateBegin}
+                />
+                <DateChooser label={"Date fin"}
+                             min={noticeDateBegin.dateString} max={new Date().toISOString().slice(0, 10)}
+                             initial={noticeDateEnd.dateString}
+                             callback={setNoticeDateEnd}
+                />
                 <CheckboxConditional initial={true} message={"Afficher le graphique"}>
                     <RegionalIntensiveCareAdmissionPlot region={selectedRegion.region}
                                                         admissions={admissions.admissions}/>
