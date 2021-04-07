@@ -1,51 +1,31 @@
-//todo: use SimpleTable
-function LocalityTable(props) {
+import SimpleTable from "../common/SimpleTable";
 
-    const {departments} = props;
+function LocalityTable({departments}) {
+    if (departments.length === 0) {
+        return (
+            <p>
+                Pas de données
+            </p>
+        )
+    }
+    const header = [
+        'code', 'région', 'code', 'département'
+    ];
+    const rows = departments.map(department => {
+        return {
+            key: `RegionalIntensiveCareAdmission-${department.id}`,
+            items: [
+                department.region.regionCode,
+                department.region.regionName,
+                department.departmentCode,
+                department.departmentName]
+        }
+    });
 
     return (
-        <div>
-            <table className="table">
-                <thead>
-                <tr>
-                    <th>
-                        Code
-                    </th>
-                    <th>
-                        Région
-                    </th>
-                    <th>
-                        Code
-                    </th>
-                    <th>
-                        Département
-                    </th>
-                </tr>
-
-                </thead>
-                <tbody>
-                {
-                    departments.map((item) =>
-                        <tr key={item.id}>
-                            <td>
-                                {item.region.regionCode}
-                            </td>
-                            <td>
-                                {item.region.regionName}
-                            </td>
-                            <td>
-                                {item.departmentCode}
-                            </td>
-                            <td>
-                                {item.departmentName}
-                            </td>
-                        </tr>
-                    )
-                }
-                </tbody>
-            </table>
-        </div>
+        <SimpleTable header={header} rows={rows}/>
     );
+
 }
 
 export default LocalityTable;

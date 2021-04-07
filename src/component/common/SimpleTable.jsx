@@ -16,17 +16,17 @@ function SimpleTable({header, rows}) {
                 <table className="table table-striped">
                     <thead>
                     <tr>
-                        {header.map((columnName) =>
-                            <th>{columnName}</th>
+                        {header.map((column, i) =>
+                            <th key={i}>{column}</th>
                         )}
                     </tr>
 
                     </thead>
                     <tbody>
                     {rows.map(row => (
-                        <tr>
-                            {row.map(item =>
-                                <td>{item}</td>)}
+                        <tr key={row.key}>
+                            {row.items.map((item, i) =>
+                                <td key={i}>{item}</td>)}
                         </tr>
                     ))}
                     </tbody>

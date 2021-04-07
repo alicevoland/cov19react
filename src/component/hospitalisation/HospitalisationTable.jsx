@@ -11,12 +11,16 @@ function RegionalIntensiveCareAdmissionTable({admissions}) {
     const header = [
         'code', 'région', 'date', 'admissions'
     ];
-    const rows = admissions.map(admission => [
-        admission.region.regionCode,
-        admission.region.regionName,
-        admission.noticeDate,
-        admission.intensiveCareAdmissionCount
-    ]);
+    const rows = admissions.map(admission => {
+        return {
+            key: `RegionalIntensiveCareAdmission-${admission.id}`,
+            items: [
+                admission.region.regionCode,
+                admission.region.regionName,
+                admission.noticeDate,
+                admission.intensiveCareAdmissionCount]
+        }
+    });
 
     return (
         <SimpleTable header={header} rows={rows}/>

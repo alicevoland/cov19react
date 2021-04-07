@@ -1,18 +1,24 @@
-import React, {useEffect, useRef, useState} from "react";
-import Chart from 'chart.js/auto';
+import React, {useEffect, useState} from "react";
 import SimplePlot from "../common/SimplePlot";
 
 function RegionalIntensiveCareAdmissionPlot({region, admissions}) {
 
-    const x = admissions.map(item => item.noticeDate);
-    const y = admissions.map(item => item.intensiveCareAdmissionCount);
+    const [data, setData] = useState({x: [], y: [], title: '', legend: ''})
 
+
+    const updateData = function () {
+        setData({
+            x: admissions.map(item => item.noticeDate),
+            y: admissions.map(item => item.intensiveCareAdmissionCount),
+            title: `Admissions en réanimation (${region ? region.regionName : ''})`,
+            legend: 'Admissions quotidiennes en réanimation'
+        })
+    }
+
+    useEffect(updateData, [region, admissions]);
 
     return (
-        <SimplePlot x={x} y={y}
-                    legend={"Admissions quotidiennes en réanimation"}
-                    title={`Admissions en réanimation (${region ? region.regionName : ''})`}
-        />
+        <SimplePlot {...data} />
     );
 }
 

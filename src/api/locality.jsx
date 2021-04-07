@@ -4,10 +4,6 @@ function findAllRegions(
     callback
 ) {
 
-    callback((prev) => ({
-        ...prev, status: 'loading'
-    }));
-
     Api
         .request({
             url: `locality/regions`,
@@ -17,16 +13,10 @@ function findAllRegions(
             const regions = response.data._embedded.regions;
             regions.sort((a, b) => a.regionCode.localeCompare(b.regionCode));
 
-            callback((prev) => ({
-                ...prev, regions: regions, status: 'ok',
-            }));
+            callback(regions);
         })
 
         .catch(error => {
-            callback((prev) => ({
-                ...prev, status: 'error'
-            }));
-
             console.log(error)
         });
 }

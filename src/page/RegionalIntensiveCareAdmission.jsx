@@ -5,7 +5,7 @@ import Content from "../component/common/Content";
 import Footer from "../component/common/Footer";
 
 // ui
-import RegionChooser from "../component/locality/RegionChooser";
+import RegionChooserForm from "../component/locality/RegionChooserForm";
 import CheckboxConditional from "../component/common/CheckboxConditional";
 
 // ui
@@ -15,50 +15,76 @@ import {RegionalIntensiveCareAdmissionTable} from "../component/hospitalisation/
 //api
 import {searchRegionalIntensiveCareAdmissions} from "../api/hospitalisation";
 import {findAllRegions} from "../api/locality";
-import DateChooser from "../component/locality/DateChooser";
+import DateChooserForm from "../component/locality/DateChooserForm";
+import FormContainer from "../component/common/FormContainer";
 
 function RegionalIntensiveCareAdmission(props) {
 
     // STATE
     // ----------------------------------------------------------------------------------------------------------------
+    const noticeDateEndInitial = new Date().toISOString().slice(0, 10);
+    let noticeDateEndInitialTmp = new Date();
+    noticeDateEndInitialTmp.setDate(noticeDateEndInitialTmp.getDate() - 30);
+    const noticeDateBeginInitial = noticeDateEndInitialTmp.toISOString().slice(0, 10);
 
-    // All regions
-    const [regions, setRegions] = useState({regions: [], status: 'initial'});
+    const [selection, setSelection] = useState({
+        noticeDateBegin: noticeDateBeginInitial,
+        noticeDateEnd: noticeDateEndInitial,
+        region: undefined,
+        regions: []
+    });
 
-    // Selected region
-    const [selectedRegion, setSelectedRegion] = useState({region: undefined, status: 'initial'});
-
-    // Notice date window
-    const initialBegin = new Date();
-    initialBegin.setDate(initialBegin.getDate() - 30);
-    const [noticeDateBegin, setNoticeDateBegin] = useState({
-        dateString: initialBegin.toISOString().slice(0, 10)
+    const [data, setData] = useState({
+        noticeDateBegin: noticeDateBeginInitial,
+        noticeDateEnd: noticeDateEndInitial,
+        admissions: [],
+        status: 'expired'
     })
-    const [noticeDateEnd, setNoticeDateEnd] = useState({dateString: new Date().toISOString().slice(0, 10)})
 
-    // Admissions
-    const [admissions, setAdmissions] = useState({admissions: [], status: 'initial'});
+    // BEHAVIOUR
+    // ----------------------------------------------------------------------------------------------------------------
 
-    // View
-    const [viewOption, setViewOption] = useState({graph: true, table: false})
+    const handleNewRegion = function (region) {
+        setSelection(prev => ({...prev, region: region}));
+        setData(prev => ({...prev, status: 'expired'}));
+    }
+
+    const handleNewRegionList = function (regions) {
+        setSelection(prev => ({...prev, regions: regions}));
+        setData(prev => ({...prev, status: 'expired'}));
+    }
+
+    const handleNewNoticeDateBegin = function (date) {
+        setSelection(prev => ({...prev, noticeDateBegin: date}));
+        setData(prev => ({...prev, status: 'expired'}));
+    }
+
+    const handleNewNoticeDateEnd = function (date) {
+        setSelection(prev => ({...prev, noticeDateEnd: date}));
+        setData(prev => ({...prev, status: 'expired'}));
+    }
+
+    const handleNewAdmissions = function (region, admissions) {
+        setData(prev => ({region: region, admissions: admissions, status: 'ok'}));
+    }
 
 
     // EFFECTS
     // ----------------------------------------------------------------------------------------------------------------
 
+
     // fetch admissions when region is selected
-    useEffect(
-        () => {
-            if (selectedRegion.status === 'ok') {
-                searchRegionalIntensiveCareAdmissions(
-                    selectedRegion.region.regionCode, noticeDateBegin.dateString, noticeDateEnd.dateString,
-                    setAdmissions);
-            }
-        },
-        [selectedRegion, noticeDateEnd, noticeDateBegin]);
+    const requestAdmissionsUpdate = function () {
+        if (selection.region) {
+            searchRegionalIntensiveCareAdmissions(
+                selection.region, selection.noticeDateBegin, selection.noticeDateEnd,
+                handleNewAdmissions);
+        }
+    }
+    useEffect(requestAdmissionsUpdate, [selection]);
 
     // fetch all regions
-    useEffect(() => findAllRegions(setRegions), []);
+    useEffect(() => findAllRegions(handleNewRegionList), []);
 
 
     // UI
@@ -72,26 +98,34 @@ function RegionalIntensiveCareAdmission(props) {
                 lead={"Admissions quotidienne en réanimation par région"}
             />
             <Content>
-                <RegionChooser regions={regions.regions} callback={setSelectedRegion}/>
-                <DateChooser label={"Date début"}
-                             min={"2020-01-01"} max={noticeDateEnd.dateString}
-                             initial={noticeDateBegin.dateString}
-                             callback={setNoticeDateBegin}
-                />
-                <DateChooser label={"Date fin"}
-                             min={noticeDateBegin.dateString} max={new Date().toISOString().slice(0, 10)}
-                             initial={noticeDateEnd.dateString}
-                             callback={setNoticeDateEnd}
-                />
-                <CheckboxConditional initial={true} message={"Afficher le graphique"}>
-                    <RegionalIntensiveCareAdmissionPlot region={selectedRegion.region}
-                                                        admissions={admissions.admissions}/>
+                <FormContainer>
+                    <RegionChooserForm regions={selection.regions}
+                                       callback={handleNewRegion}/>
+
+                    <DateChooserForm label={"Date début"}
+                                     min={"2020-01-01"} max={selection.noticeDateEnd}
+                                     initial={noticeDateBeginInitial}
+                                     callback={handleNewNoticeDateBegin}/>
+
+                    <DateChooserForm label={"Date fin"}
+                                     min={selection.noticeDateBegin} max={noticeDateEndInitial}
+                                     initial={noticeDateEndInitial}
+                                     callback={handleNewNoticeDateEnd}/>
+                </FormContainer>
+
+                <CheckboxConditional initial={true}
+                                     message={"Afficher le graphique"}>
+                    <RegionalIntensiveCareAdmissionPlot {...data}/>
                 </CheckboxConditional>
-                <CheckboxConditional initial={false} message={"Afficher le tableau"}>
-                    <RegionalIntensiveCareAdmissionTable region={selectedRegion.region}
-                                                         admissions={admissions.admissions}/>
+
+                <CheckboxConditional initial={false}
+                                     message={"Afficher le tableau"}>
+                    <RegionalIntensiveCareAdmissionTable {...data}/>
+
                 </CheckboxConditional>
+
             </Content>
+
             <Footer/>
         </>
     );

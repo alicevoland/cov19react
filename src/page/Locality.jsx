@@ -36,8 +36,6 @@ function Locality(props) {
         []
     );
 
-    console.log("Will return UI")
-
     return (
         <>
             <Navbar/>
@@ -46,7 +44,7 @@ function Locality(props) {
                 lead={"Liste des régions et départements de France"}
             />
             <Content>
-                <Loading isLoading={state.isLoading}>
+                <Loading isLoading={state.isLoading} message={"Chargement en cours...."}>
                     <LocalityTable
                         departments={state.departments}
                     />

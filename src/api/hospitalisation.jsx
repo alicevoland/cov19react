@@ -2,16 +2,13 @@ import Api from "./Api";
 
 
 const searchRegionalIntensiveCareAdmissions = function (
-    regionCode, noticeDateBegin, noticeDateEnd,
+    region, noticeDateBegin, noticeDateEnd,
     callback
 ) {
-    callback((prev) => ({
-        ...prev, status: 'loading'
-    }));
     Api.request({
         url: `hospitalisation/regionalIntensiveCareAdmissions/search`,//,,
         params: {
-            regionCode: regionCode,
+            regionCode: region.regionCode,
             noticeDateBegin: noticeDateBegin,
             noticeDateEnd: noticeDateEnd
 
@@ -25,14 +22,11 @@ const searchRegionalIntensiveCareAdmissions = function (
             regionalIntensiveCareAdmissions.sort((a, o) => {
                 return a.noticeDate.localeCompare(o.noticeDate)
             });
-            callback((prev) => ({
-                ...prev, admissions: regionalIntensiveCareAdmissions, status: 'ok'
-            }));
+
+            callback(region, regionalIntensiveCareAdmissions);
+
         })
         .catch(error => {
-            callback((prev) => ({
-                ...prev, status: 'error'
-            }));
             console.log(error)
         })
 }

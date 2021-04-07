@@ -1,20 +1,15 @@
-function RegionChooser(props) {
-    const {callback, regions} = props;
+function RegionChooserForm({callback, regions}) {
 
     const handleSelectChange = function (event) {
         let region = regions.find(r => r.regionCode === event.target.value);
-        callback({
-            region: region,
-            status: 'ok'
-        });
+        callback(region);
     }
+
     if (regions && regions.length > 0) {
         return (
-            <>
-                <form>
-                    <label>
+                    <label className={"form-label"}>
                         Choisir la région :
-                        <select onChange={handleSelectChange}>
+                        <select className={"form-control"} onChange={handleSelectChange}>
                             {regions.map(region => {
                                 return (
                                     <option
@@ -28,12 +23,10 @@ function RegionChooser(props) {
                             }
                         </select>
                     </label>
-                </form>
-            </>
         );
     } else {
-        return (<></>);
+        return (<><p>attente de la réponse du serveur...</p></>);
     }
 }
 
-export default RegionChooser
+export default RegionChooserForm
