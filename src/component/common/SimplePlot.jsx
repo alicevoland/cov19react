@@ -1,26 +1,22 @@
 import React, {useEffect, useRef, useState} from "react";
 import Chart from 'chart.js/auto';
 
-function Plot(props) {
-    const {admissions, region} = props;
+function Plot({x, y, title, legend}) {
     const canvasRef = useRef(null);
-
 
     const [chart, setChart] = useState({chart: undefined});
 
     const createChart = function () {
-        const admissionsX = admissions.map(item => item.noticeDate);
-        const admissionsY = admissions.map(item => item.intensiveCareAdmissionCount);
         const data = {
-            labels: admissionsX,
+            labels: x,
             datasets: [{
-                label: 'Admissions en réanimation',
+                label: legend,
                 fill: false,
                 lineTension: 0.5,
                 backgroundColor: 'rgba(75,192,192,1)',
                 borderColor: 'rgba(0,0,0,1)',
                 borderWidth: 2,
-                data: admissionsY
+                data: y
             }]
         };
         const config = {
@@ -34,7 +30,7 @@ function Plot(props) {
                     },
                     title: {
                         display: true,
-                        text: `Admission en réanimation (${region.regionName})`
+                        text: title
                     }
                 }
             },
@@ -46,7 +42,7 @@ function Plot(props) {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(createChart, [admissions]);
+    useEffect(createChart, [x, y]);
 
     return (
         <>
@@ -58,11 +54,10 @@ function Plot(props) {
     );
 }
 
-function RegionalIntensiveCareAdmissionPlot(props) {
-    const {admissions} = props;
-    if (admissions && admissions.length > 0) {
+function SimplePlot({x, y, title, legend}) {
+    if (x && x.length > 0) {
         return (
-            <Plot {...props} />
+            <Plot x={x} y={y} title={title} legend={legend}/>
         );
     } else {
         return (
@@ -73,4 +68,4 @@ function RegionalIntensiveCareAdmissionPlot(props) {
     }
 }
 
-export default RegionalIntensiveCareAdmissionPlot;
+export default SimplePlot;

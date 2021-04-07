@@ -4,7 +4,7 @@ import Navbar from "../component/common/Navbar";
 import Content from "../component/common/Content";
 import Footer from "../component/common/Footer";
 import RegionChooser from "../component/locality/RegionChooser";
-import RegionalIntensiveCareAdmissionPlot from "../component/hospitalisation/RegionalIntensiveCareAdmissionPlot";
+import {RegionalIntensiveCareAdmissionPlot} from "../component/hospitalisation/HospitalisationPlot";
 import {searchRegionalIntensiveCareAdmissions} from "../api/hospitalisation";
 import {findAllRegions} from "../api/locality";
 import RegionalIntensiveCareAdmissionTable from "../component/hospitalisation/RegionalIntensiveCareAdmissionTable";
