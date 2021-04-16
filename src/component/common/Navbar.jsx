@@ -10,7 +10,7 @@ function Navbar(props) {
     return (
         <nav className="navbar navbar-light bg-light">
             <div className="container">
-                <a className="navbar-brand" href="/"> Covid 19 UI </a>
+                <a className="navbar-brand" href="/"> Covid 19 React UI </a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
                         aria-label="Toggle navigation">
